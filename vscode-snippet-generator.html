@@ -1,409 +1,454 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VS Code Snippet Generator</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0e0e10;
-    --surface: #18181b;
-    --surface-hover: #1e1e22;
-    --border: #2a2a2e;
-    --border-focus: #3b82f6;
-    --text: #e4e4e7;
-    --text-muted: #71717a;
-    --accent: #3b82f6;
-    --accent-glow: rgba(59, 130, 246, 0.15);
-    --green: #22c55e;
-    --green-glow: rgba(34, 197, 94, 0.15);
-    --red: #ef4444;
-    --mono: 'JetBrains Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-    --radius: 10px;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    padding: 40px 20px;
-  }
-
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-
-  header {
-    margin-bottom: 40px;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 6px;
-  }
-
-  header p {
-    color: var(--text-muted);
-    font-size: 0.875rem;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 160px;
-    gap: 16px;
-  }
-
-  input, select, textarea {
-    width: 100%;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-family: var(--sans);
-    font-size: 0.9rem;
-    padding: 10px 14px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-
-  select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2371717a' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 3.5L11.5 6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-  }
-
-  select option {
-    background: var(--surface);
-    color: var(--text);
-  }
-
-  textarea {
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    line-height: 1.65;
-    resize: vertical;
-    min-height: 200px;
-    tab-size: 4;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 11px 24px;
-    border-radius: var(--radius);
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    background: #2563eb;
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-
-  .btn-copy {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    color: var(--text);
-    padding: 8px 16px;
-    font-size: 0.78rem;
-  }
-
-  .btn-copy:hover {
-    background: var(--surface-hover);
-    border-color: var(--text-muted);
-  }
-
-  .btn-copy.copied {
-    border-color: var(--green);
-    color: var(--green);
-    box-shadow: 0 0 0 3px var(--green-glow);
-  }
-
-  .output-section {
-    margin-top: 32px;
-    display: none;
-  }
-
-  .output-section.visible {
-    display: block;
-  }
-
-  .output-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
-
-  .output-header label {
-    margin-bottom: 0;
-  }
-
-  pre {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    overflow-x: auto;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    line-height: 1.7;
-    color: var(--text);
-    white-space: pre;
-  }
-
-  .error {
-    margin-top: 12px;
-    padding: 12px 16px;
-    background: rgba(239, 68, 68, 0.08);
-    border: 1.5px solid rgba(239, 68, 68, 0.25);
-    border-radius: var(--radius);
-    color: var(--red);
-    font-size: 0.84rem;
-    display: none;
-  }
-
-  .error.visible {
-    display: block;
-  }
-
-  .actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-top: 4px;
-  }
-
-  kbd {
-    display: inline-block;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    margin-left: 4px;
-  }
-
-  @media (max-width: 600px) {
-    .row { grid-template-columns: 1fr; }
-  }
-</style>
-</head>
-<body>
-
-<div class="container">
-  <header>
-    <h1>VS Code Snippet Generator</h1>
-    <p>Paste code, get a ready-to-use VS Code snippet.</p>
-  </header>
-
-  <div class="row">
-    <div class="form-group">
-      <label for="description">Description</label>
-      <input type="text" id="description" placeholder="e.g. Secret Manager">
-    </div>
-    <div class="form-group">
-      <label for="prefix">Prefix <span style="opacity:0.5">(optional)</span></label>
-      <input type="text" id="prefix" placeholder="Uses description if empty">
-    </div>
-    <div class="form-group">
-      <label for="indentSize">Indentation</label>
-      <select id="indentSize">
-        <option value="2">2 spaces</option>
-        <option value="4">4 spaces</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="code">Code Snippet</label>
-    <textarea id="code" placeholder="Paste your code here..." spellcheck="false"></textarea>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-primary" id="generateBtn" onclick="generate()">Generate</button>
-    <span style="font-size:0.78rem; color:var(--text-muted)">or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd></span>
-  </div>
-
-  <div class="error" id="error"></div>
-
-  <div class="output-section" id="outputSection">
-    <div class="output-header">
-      <label>Output</label>
-      <button class="btn btn-copy" id="copyBtn" onclick="copyOutput()">Copy</button>
-    </div>
-    <pre id="output"></pre>
-  </div>
-</div>
-
-<script>
-  // Allow Ctrl+Enter to generate
-  document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.key === 'Enter') {
-      e.preventDefault();
-      generate();
-    }
-  });
-
-  // Allow Tab in textarea
-  document.getElementById('code').addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const ta = e.target;
-      const start = ta.selectionStart;
-      const end = ta.selectionEnd;
-      ta.value = ta.value.substring(0, start) + '  ' + ta.value.substring(end);
-      ta.selectionStart = ta.selectionEnd = start + 2;
-    }
-  });
-
-  function showError(msg) {
-    const el = document.getElementById('error');
-    el.textContent = msg;
-    el.classList.add('visible');
-  }
-
-  function clearError() {
-    document.getElementById('error').classList.remove('visible');
-  }
-
-  function generate() {
-    clearError();
-
-    const description = document.getElementById('description').value.trim();
-    const prefix = document.getElementById('prefix').value.trim() || description;
-    const code = document.getElementById('code').value;
-
-    if (!description) {
-      showError('Description is required.');
-      return;
-    }
-    if (!code) {
-      showError('Code snippet is required.');
-      return;
-    }
-
-    const indentSize = parseInt(document.getElementById('indentSize').value);
-    const lines = code.split('\n');
-
-    // Strip single trailing empty line if present (common from pasting)
-    if (lines.length > 0 && lines[lines.length - 1] === '') {
-      lines.pop();
-    }
-
-    const bodyLines = lines.map(line => {
-      if (line === '') return { text: '', depth: 0 };
-
-      // Count leading spaces
-      const match = line.match(/^( +)/);
-      let depth = 0;
-      let content = line;
-
-      if (match) {
-        const spaces = match[1].length;
-        depth = Math.floor(spaces / indentSize);
-        content = line.substring(depth * indentSize);
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VS Code Snippet Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0e0e10;
+        --surface: #18181b;
+        --surface-hover: #1e1e22;
+        --border: #2a2a2e;
+        --border-focus: #3b82f6;
+        --text: #e4e4e7;
+        --text-muted: #71717a;
+        --accent: #3b82f6;
+        --accent-glow: rgba(59, 130, 246, 0.15);
+        --green: #22c55e;
+        --green-glow: rgba(34, 197, 94, 0.15);
+        --red: #ef4444;
+        --mono: 'JetBrains Mono', monospace;
+        --sans: 'DM Sans', sans-serif;
+        --radius: 10px;
       }
 
-      // Escape special VS Code snippet characters in content
-      // Order matters: backslash first
-      content = content.replace(/\\/g, '\\\\');
-      content = content.replace(/\$/g, '\\$');
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-      // Escape double quotes for JSON string
-      content = content.replace(/"/g, '\\"');
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
 
-      // Prepend \t for each indentation level
-      const tabs = '\\t'.repeat(depth);
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
 
-      return { text: tabs + content, depth: depth };
-    });
+      header {
+        margin-bottom: 40px;
+      }
 
-    // Build the output JSON string with mirrored indentation (2-space JSON indent)
-    const baseIndent = '    '; // 4 spaces (2 levels inside body array)
-    let bodyStr = '[\n';
+      header h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-bottom: 6px;
+      }
 
-    bodyLines.forEach((item, i) => {
-      const extraIndent = '  '.repeat(item.depth); // 2 spaces per depth level
-      const comma = i < bodyLines.length - 1 ? ',' : '';
-      bodyStr += baseIndent + extraIndent + '"' + item.text + '"' + comma + '\n';
-    });
+      header p {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+      }
 
-    bodyStr += '  ]'; // closing bracket at 1 level
+      .form-group {
+        margin-bottom: 20px;
+      }
 
-    const jsonOutput =
-      '"' + escapeJsonString(description) + '": {\n' +
-      '  "prefix": "' + escapeJsonString(prefix) + '",\n' +
-      '  "body": ' + bodyStr + ',\n' +
-      '  "description": "' + escapeJsonString(description) + '"\n' +
-      '}';
+      label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
 
-    document.getElementById('output').textContent = jsonOutput;
-    document.getElementById('outputSection').classList.add('visible');
-  }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 160px;
+        gap: 16px;
+      }
 
-  function escapeJsonString(str) {
-    return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-  }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 0.9rem;
+        padding: 10px 14px;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
 
-  let copyTimeout;
-  function copyOutput() {
-    const text = document.getElementById('output').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      clearTimeout(copyTimeout);
-      copyTimeout = setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2000);
-    });
-  }
-</script>
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--border-focus);
+        box-shadow: 0 0 0 3px var(--accent-glow);
+      }
 
-</body>
+      select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2371717a' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 3.5L11.5 6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 36px;
+      }
+
+      select option {
+        background: var(--surface);
+        color: var(--text);
+      }
+
+      textarea {
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        line-height: 1.65;
+        resize: vertical;
+        min-height: 200px;
+        tab-size: 4;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: var(--sans);
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 11px 24px;
+        border-radius: var(--radius);
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: #2563eb;
+        box-shadow: 0 0 0 3px var(--accent-glow);
+      }
+
+      .btn-copy {
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        color: var(--text);
+        padding: 8px 16px;
+        font-size: 0.78rem;
+      }
+
+      .btn-copy:hover {
+        background: var(--surface-hover);
+        border-color: var(--text-muted);
+      }
+
+      .btn-copy.copied {
+        border-color: var(--green);
+        color: var(--green);
+        box-shadow: 0 0 0 3px var(--green-glow);
+      }
+
+      .output-section {
+        margin-top: 32px;
+        display: none;
+      }
+
+      .output-section.visible {
+        display: block;
+      }
+
+      .output-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      .output-header label {
+        margin-bottom: 0;
+      }
+
+      pre {
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+        overflow-x: auto;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        line-height: 1.7;
+        color: var(--text);
+        white-space: pre;
+      }
+
+      .error {
+        margin-top: 12px;
+        padding: 12px 16px;
+        background: rgba(239, 68, 68, 0.08);
+        border: 1.5px solid rgba(239, 68, 68, 0.25);
+        border-radius: var(--radius);
+        color: var(--red);
+        font-size: 0.84rem;
+        display: none;
+      }
+
+      .error.visible {
+        display: block;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 4px;
+      }
+
+      kbd {
+        display: inline-block;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-left: 4px;
+      }
+
+      @media (max-width: 600px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>VS Code Snippet Generator</h1>
+        <p>Paste code, get a ready-to-use VS Code snippet.</p>
+      </header>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            id="description"
+            placeholder="e.g. Secret Manager"
+          />
+        </div>
+        <div class="form-group">
+          <label for="prefix"
+            >Prefix <span style="opacity: 0.5">(optional)</span></label
+          >
+          <input
+            type="text"
+            id="prefix"
+            placeholder="Uses description if empty"
+          />
+        </div>
+        <div class="form-group">
+          <label for="indentSize">Indentation</label>
+          <select id="indentSize">
+            <option value="2">2 spaces</option>
+            <option value="4">4 spaces</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="code">Code Snippet</label>
+        <textarea
+          id="code"
+          placeholder="Paste your code here..."
+          spellcheck="false"
+        ></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="generateBtn" onclick="generate()">
+          Generate
+        </button>
+        <span style="font-size: 0.78rem; color: var(--text-muted)"
+          >or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd></span
+        >
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="output-section" id="outputSection">
+        <div class="output-header">
+          <label>Output</label>
+          <button class="btn btn-copy" id="copyBtn" onclick="copyOutput()">
+            Copy
+          </button>
+        </div>
+        <pre id="output"></pre>
+      </div>
+    </div>
+
+    <script>
+      // Allow Ctrl+Enter to generate
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'Enter') {
+          e.preventDefault();
+          generate();
+        }
+      });
+
+      // Allow Tab in textarea
+      document.getElementById('code').addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const ta = e.target;
+          const start = ta.selectionStart;
+          const end = ta.selectionEnd;
+          ta.value =
+            ta.value.substring(0, start) + '  ' + ta.value.substring(end);
+          ta.selectionStart = ta.selectionEnd = start + 2;
+        }
+      });
+
+      function showError(msg) {
+        const el = document.getElementById('error');
+        el.textContent = msg;
+        el.classList.add('visible');
+      }
+
+      function clearError() {
+        document.getElementById('error').classList.remove('visible');
+      }
+
+      function generate() {
+        clearError();
+
+        const description = document.getElementById('description').value.trim();
+        const prefix =
+          document.getElementById('prefix').value.trim() || description;
+        const code = document.getElementById('code').value;
+
+        if (!description) {
+          showError('Description is required.');
+          return;
+        }
+        if (!code) {
+          showError('Code snippet is required.');
+          return;
+        }
+
+        const indentSize = parseInt(
+          document.getElementById('indentSize').value
+        );
+        const lines = code.split('\n');
+
+        // Strip single trailing empty line if present (common from pasting)
+        if (lines.length > 0 && lines[lines.length - 1] === '') {
+          lines.pop();
+        }
+
+        const bodyLines = lines.map((line) => {
+          if (line === '') return { text: '', depth: 0 };
+
+          // Count leading spaces
+          const match = line.match(/^( +)/);
+          let depth = 0;
+          let content = line;
+
+          if (match) {
+            const spaces = match[1].length;
+            depth = Math.floor(spaces / indentSize);
+            content = line.substring(depth * indentSize);
+          }
+
+          // Escape special VS Code snippet characters in content
+          // Order matters: backslash first
+          content = content.replace(/\\/g, '\\\\');
+
+          // Escape double quotes for JSON string
+          content = content.replace(/"/g, '\\"');
+
+          // Prepend \t for each indentation level
+          const tabs = '\\t'.repeat(depth);
+
+          return { text: tabs + content, depth: depth };
+        });
+
+        // Build the output JSON string with mirrored indentation (2-space JSON indent)
+        const baseIndent = '    '; // 4 spaces (2 levels inside body array)
+        let bodyStr = '[\n';
+
+        bodyLines.forEach((item, i) => {
+          const extraIndent = '  '.repeat(item.depth); // 2 spaces per depth level
+          const comma = i < bodyLines.length - 1 ? ',' : '';
+          bodyStr +=
+            baseIndent + extraIndent + '"' + item.text + '"' + comma + '\n';
+        });
+
+        bodyStr += '  ]'; // closing bracket at 1 level
+
+        const jsonOutput =
+          '"' +
+          escapeJsonString(description) +
+          '": {\n' +
+          '  "prefix": "' +
+          escapeJsonString(prefix) +
+          '",\n' +
+          '  "body": ' +
+          bodyStr +
+          ',\n' +
+          '  "description": "' +
+          escapeJsonString(description) +
+          '"\n' +
+          '}';
+
+        document.getElementById('output').textContent = jsonOutput;
+        document.getElementById('outputSection').classList.add('visible');
+      }
+
+      function escapeJsonString(str) {
+        return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      }
+
+      let copyTimeout;
+      function copyOutput() {
+        const text = document.getElementById('output').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.getElementById('copyBtn');
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          clearTimeout(copyTimeout);
+          copyTimeout = setTimeout(() => {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
 </html>
