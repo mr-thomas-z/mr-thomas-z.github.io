@@ -1,6 +1,6 @@
-import { education } from "@/data/resume";
-import { Reveal } from "./Reveal";
-import { SectionHeader } from "./SectionHeader";
+import { education } from '@/data/resume';
+import { Reveal } from './Reveal';
+import { SectionHeader } from './SectionHeader';
 
 export function Education() {
   return (
@@ -9,9 +9,13 @@ export function Education() {
         <SectionHeader index="05" label="Education" />
       </Reveal>
 
-      <ol className="space-y-8">
+      <ol>
         {education.map((entry, idx) => (
-          <Reveal key={entry.school} delay={0.04 * idx}>
+          <Reveal
+            key={entry.school}
+            delay={0.04 * idx}
+            className={idx === 0 ? '' : 'mt-8 border-t border-rule/50 pt-8'}
+          >
             <li>
               {entry.period && (
                 <p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-muted">
