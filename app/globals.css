@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #faf7f0;
+  --color-paper-deep: #f3ede0;
+  --color-ink: #1a1a1c;
+  --color-ink-soft: #2c2c30;
+  --color-muted: #6b6b6f;
+  --color-rule: #e3dccb;
+  --color-accent: #8a2a1c;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background:
+      radial-gradient(
+        circle at 12% -5%,
+        rgba(138, 42, 28, 0.05),
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 95% 8%,
+        rgba(227, 220, 203, 0.5),
+        transparent 50%
+      ),
+      var(--color-paper);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility tracking-display {
+  letter-spacing: -0.035em;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility hairline {
+  border-color: var(--color-rule);
+}
