@@ -1,5 +1,5 @@
-import { ArrowUpRight } from 'lucide-react';
-import { profile } from '@/data/resume';
+import { ArrowUpRight } from "lucide-react";
+import { profile } from "@/data/resume";
 
 export function Footer() {
   return (

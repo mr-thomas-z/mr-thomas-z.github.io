@@ -1,6 +1,6 @@
-import { experience } from '@/data/resume';
-import { Reveal } from './Reveal';
-import { SectionHeader } from './SectionHeader';
+import { experience } from "@/data/resume";
+import { Reveal } from "./Reveal";
+import { SectionHeader } from "./SectionHeader";
 
 export function Experience() {
   return (
@@ -21,7 +21,9 @@ export function Experience() {
                   <h3 className="font-display text-3xl leading-tight text-ink">
                     {entry.company}
                   </h3>
-                  <span className="text-sm italic text-muted">{entry.role}</span>
+                  <span className="text-sm italic text-muted">
+                    {entry.role}
+                  </span>
                 </div>
                 <ul className="mt-5 space-y-3">
                   {entry.bullets.map((b, i) => (

@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,python,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,visualstudiocode
+# Created by https://www.toptal.com/developers/gitignore/api/macos,python,visualstudiocode,nextjs
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,visualstudiocode,nextjs
 
 ### macOS ###
 # General
@@ -33,6 +33,41 @@ Temporary Items
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
+
+### NextJS ###
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -225,20 +260,10 @@ pyrightconfig.json
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,python,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/macos,python,visualstudiocode,nextjs
 
+
+### Claude ###
 CLAUDE.md
 .claude
 tmp/
-
-### Node / Next.js ###
-node_modules/
-.next/
-out/
-next-env.d.ts
-*.tsbuildinfo
-.env.local
-.env.*.local
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*

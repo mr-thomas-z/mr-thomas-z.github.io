@@ -1,6 +1,6 @@
-import { education } from '@/data/resume';
-import { Reveal } from './Reveal';
-import { SectionHeader } from './SectionHeader';
+import { education } from "@/data/resume";
+import { Reveal } from "./Reveal";
+import { SectionHeader } from "./SectionHeader";
 
 export function Education() {
   return (

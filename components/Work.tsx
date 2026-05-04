@@ -1,6 +1,6 @@
-import { selectedWork } from '@/data/resume';
-import { Reveal } from './Reveal';
-import { SectionHeader } from './SectionHeader';
+import { selectedWork } from "@/data/resume";
+import { Reveal } from "./Reveal";
+import { SectionHeader } from "./SectionHeader";
 
 export function Work() {
   return (
@@ -19,7 +19,7 @@ export function Work() {
               />
               <div className="flex items-baseline gap-3">
                 <span className="font-mono text-[0.7rem] tabular-nums text-accent/80">
-                  {String(idx + 1).padStart(2, '0')}
+                  {String(idx + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
                   {w.company}

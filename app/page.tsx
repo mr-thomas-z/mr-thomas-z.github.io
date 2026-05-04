@@ -1,10 +1,10 @@
-import { About } from '@/components/About';
-import { Education } from '@/components/Education';
-import { Experience } from '@/components/Experience';
-import { Footer } from '@/components/Footer';
-import { Hero } from '@/components/Hero';
-import { Skills } from '@/components/Skills';
-import { Work } from '@/components/Work';
+import { About } from "@/components/About";
+import { Education } from "@/components/Education";
+import { Experience } from "@/components/Experience";
+import { Footer } from "@/components/Footer";
+import { Hero } from "@/components/Hero";
+import { Skills } from "@/components/Skills";
+import { Work } from "@/components/Work";
 
 export default function Home() {
   return (

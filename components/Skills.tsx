@@ -1,6 +1,6 @@
-import { skills } from '@/data/resume';
-import { Reveal } from './Reveal';
-import { SectionHeader } from './SectionHeader';
+import { skills } from "@/data/resume";
+import { Reveal } from "./Reveal";
+import { SectionHeader } from "./SectionHeader";
 
 export function Skills() {
   return (

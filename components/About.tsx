@@ -1,6 +1,6 @@
-import { profile } from '@/data/resume';
-import { Reveal } from './Reveal';
-import { SectionHeader } from './SectionHeader';
+import { profile } from "@/data/resume";
+import { Reveal } from "./Reveal";
+import { SectionHeader } from "./SectionHeader";
 
 export function About() {
   return (
