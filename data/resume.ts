@@ -47,7 +47,7 @@ export const experience: ExperienceEntry[] = [
   {
     period: "2019 — 2022",
     company: "Volta Charging",
-    role: "Senior Mobile Engineer (Full-stack) → Mobile Engineer",
+    role: "Senior Mobile Engineer (Full-stack) ← Mobile Engineer",
     bullets: [
       "Drove app reliability to 99.86% crash-free sessions and improved store ratings from ~2.1 to ~4.9 stars by partnering with designers and PMs on UX.",
       "Built and maintained backend microservices in PostgreSQL, AWS Lambda, API Gateway, and REST endpoints — expanding from frontend into full-stack work.",
